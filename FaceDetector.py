@@ -30,6 +30,6 @@ class FaceDetector:
         for (x, y, w, h) in face:
             cv2.rectangle(frame, (x, y), (x + w, y + h), (255, 0, 0), 1)
             head = cv2.cvtColor(frame[y:y+h, x:x+w], cv2.COLOR_RGB2GRAY)
-            head = cv2.resize(head, dsize=(200, 200))
+            head = cv2.resize(head, dsize=(250, 250))
             return True, frame, head, (x, y)
         return False, frame, None, (0, 0)

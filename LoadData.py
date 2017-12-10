@@ -2,7 +2,9 @@ import cv2
 import numpy as np
 from os import path
 import cPickle as pickle
-
+"""Load preprocessed faces from pickle file or create them from scratch.
+Pickle file contains train and test images, corresponding labels of train / test images,
+eigenvectors and mean values"""
 
 def loadData(loadFromFile, splittingFactor = 0.2,
              saveToFile = None):
@@ -62,7 +64,7 @@ def extractFeatures(X, V=None, m=None):
         xArr = np.squeeze(np.array(X)).astype(np.float32)
         m, V = cv2.PCACompute(xArr)
 
-    V = V[:30]
+        V = V[:100]
 
     for i in xrange(len(X)):
         X[i] = np.dot(V, X[i]-m[0, i])

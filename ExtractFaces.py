@@ -10,14 +10,15 @@ class Extract:
         self.emotions = [
                         "neutral",
                         "anger",
-                        " ", " ",
-                        " ",
+                        "contempt", "disgust",
+                        "fearful",
                         "happy",
                         "sadness",
                         "surprise"]
         self.labels = []
         self.pictures = []
 
+    # take pictures from dataset and copy them to corresponding folders with emotions labels
     def sortSet(self):
         folders = glob.glob("\\users\\matik\\Dataset\\source_emotion\\*")
         for f in folders:
@@ -27,7 +28,7 @@ class Extract:
                     current_session = sequences[-3:]
                     file = open(files, 'r')
                     emotion = int(float(file.readline()))
-                    if (emotion != 2 and emotion !=3 and emotion !=4):
+                    if emotion != 1 and emotion != 2 and emotion != 3 and emotion != 4:
                         for i in xrange(1, 6):
                             # get path for last image in sequence, which contains the emotion
                             srcfile_emotion = \
@@ -37,13 +38,15 @@ class Extract:
                             dest_emot = ("\\users\\matik\\Dataset\\sorted_set\\%s\\%s") % (
                                     self.emotions[emotion], srcfile_emotion[44:])
                             copyfile(srcfile_emotion, dest_emot)
-                            if (i < 2):
+                            if i < 3:
                                 srcfile_neutral = \
                                 glob.glob("\\users\\matik\\Dataset\\source_images\\%s\\%s\\*" % (
                                     partName, current_session))[i-1]
                                 dest_neut = ("\\users\\matik\\Dataset\\sorted_set\\neutral\\%s" % srcfile_neutral[44:])
                                 copyfile(srcfile_neutral, dest_neut)
 
+    # extract faces from given dataset and put them into a list. Dump pictures to binary representation
+    # and save as pickle file
     def extractFaces(self, emotion):
         face_cascade = cv2.CascadeClassifier("classifiers/haarcascade_frontalface_default.xml")
         images = glob.glob("\\users\\matik\\Dataset\\sorted_set\\%s\\*" %emotion)
@@ -55,14 +58,14 @@ class Extract:
                 for (x,y,w,h) in face:
                     grayPicture=grayPicture[y:y + h, x:x + w]
                     try:
-                        outputPic=cv2.resize(grayPicture, (200, 200))
+                        outputPic=cv2.resize(grayPicture, (250, 250))
                         self.labels.append(emotion)
                         self.pictures.append(outputPic.flatten())
                     except:
                         pass
 
     def main(self):
-        self.sortSet()
+        # self.sortSet()
         for emotion in self.emotions:
             self.extractFaces(emotion)
         f = open(self.save_file, 'wb')

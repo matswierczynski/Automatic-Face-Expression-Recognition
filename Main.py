@@ -41,9 +41,12 @@ class MainLayout(BaseWindow):
         success, frame, self.head, (x, y) = self.face.detect_face(frame)
         if success:
             X, _, _ = LoadData.extractFeatures([self.head.flatten()], self.V, self.m)
-            label = self.MultiLayerPerceptron.predict(np.array(X))[0]
+            label, self.predPerc = self.MultiLayerPerceptron.predict(np.array(X))
             cv2.putText(frame, str(label), (x, y - 20),
                         cv2.FONT_HERSHEY_COMPLEX, 1, (0, 255, 0), 2)
+            for i in xrange(len(self.labels)):
+                cv2.putText(frame, "%s : %f" % (self.labels[i], self.predPerc[0][i]), (10, 20+30*i),
+                            cv2.FONT_HERSHEY_COMPLEX, 1, (0, 255, 0), 1)
         return frame
 
     def on_exit(self):

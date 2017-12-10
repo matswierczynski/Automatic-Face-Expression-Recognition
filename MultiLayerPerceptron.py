@@ -26,8 +26,8 @@ class MLP:
 
     def predict(self, xTest):
         _, yVote = self.model.predict(xTest)
-        yVote = np.argmax(yVote, axis=1)
-        return self.arrayOfIntsToString(yVote)
+        intLabel = np.argmax(yVote, axis=1)
+        return self.arrayOfIntsToString(intLabel), yVote
 
     def evaluate(self, xTest, yTest):
         yTest = self.labelsToIntArray(yTest)
