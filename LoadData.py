@@ -2,6 +2,7 @@ import cv2
 import numpy as np
 from os import path
 import cPickle as pickle
+from matplotlib import pyplot as plt
 """Load preprocessed faces from pickle file or create them from scratch.
 Pickle file contains train and test images, corresponding labels of train / test images,
 eigenvectors and mean values"""
@@ -63,10 +64,13 @@ def extractFeatures(X, V=None, m=None):
     if V is None or m is None:
         xArr = np.squeeze(np.array(X)).astype(np.float32)
         m, V = cv2.PCACompute(xArr)
-
         V = V[:100]
 
     for i in xrange(len(X)):
+        # a = m[i].reshape(250, 250)
+        # plt.imshow(a, cmap='gray')
         X[i] = np.dot(V, X[i]-m[0, i])
+        # b = V[i].reshape(250, 250)
+        # plt.imshow(b, cmap='gray')
 
     return X, V, m

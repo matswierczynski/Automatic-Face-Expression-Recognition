@@ -46,7 +46,7 @@ class MainLayout(BaseWindow):
                         cv2.FONT_HERSHEY_COMPLEX, 1, (0, 255, 0), 2)
             for i in xrange(len(self.labels)):
                 cv2.putText(frame, "%s : %f" % (self.labels[i], self.predPerc[0][i]), (10, 20+30*i),
-                            cv2.FONT_HERSHEY_COMPLEX, 1, (0, 255, 0), 1)
+                            cv2.FONT_HERSHEY_COMPLEX, 0.5, (0, 255, 0), 1)
         return frame
 
     def on_exit(self):

@@ -18,7 +18,7 @@ def main():
 
     bestAccuracy=0.0
     for i in xrange(10):
-        layerSizes = np.int32([noOfFeatures, (i+1)*noOfFeatures/5, noOfClasses])
+        layerSizes = np.int32([noOfFeatures, (i+1)*noOfFeatures/10, noOfClasses])
         MultiLayPer = MLP(layerSizes, labels)
         MultiLayPer.prepareData(xTrain, yTrain)
         acc = MultiLayPer.evaluate(xTest, yTest)

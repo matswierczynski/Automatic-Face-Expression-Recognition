@@ -24,7 +24,7 @@ class BaseWindow(wx.Frame):
 
         # set timer to grab picture at every 100ms (10 fps)
         self.playTimer = wx.Timer(self)
-        self.playTimer.Start(1000 / 20)
+        self.playTimer.Start(1000 / 10)
         self.Bind(wx.EVT_TIMER, self.onNextFrame)
 
         # create panel for camera stream

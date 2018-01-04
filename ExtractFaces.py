@@ -28,8 +28,8 @@ class Extract:
                     current_session = sequences[-3:]
                     file = open(files, 'r')
                     emotion = int(float(file.readline()))
-                    if emotion != 1 and emotion != 2 and emotion != 3 and emotion != 4:
-                        for i in xrange(1, 6):
+                    #if emotion != 1 and emotion != 2 and emotion != 3 and emotion != 4:
+                    for i in xrange(1, 3):
                             # get path for last image in sequence, which contains the emotion
                             srcfile_emotion = \
                                 glob.glob("\\users\\matik\\Dataset\\source_images\\%s\\%s\\*" % (
@@ -38,7 +38,7 @@ class Extract:
                             dest_emot = ("\\users\\matik\\Dataset\\sorted_set\\%s\\%s") % (
                                     self.emotions[emotion], srcfile_emotion[44:])
                             copyfile(srcfile_emotion, dest_emot)
-                            if i < 3:
+                            if i < 2:
                                 srcfile_neutral = \
                                 glob.glob("\\users\\matik\\Dataset\\source_images\\%s\\%s\\*" % (
                                     partName, current_session))[i-1]
@@ -59,13 +59,16 @@ class Extract:
                     grayPicture=grayPicture[y:y + h, x:x + w]
                     try:
                         outputPic=cv2.resize(grayPicture, (250, 250))
+                        # cv2.imshow('image', outputPic)
+                        # cv2.waitKey(0)
+                        # cv2.destroyAllWindows()
                         self.labels.append(emotion)
                         self.pictures.append(outputPic.flatten())
                     except:
                         pass
 
     def main(self):
-        # self.sortSet()
+        self.sortSet()
         for emotion in self.emotions:
             self.extractFaces(emotion)
         f = open(self.save_file, 'wb')
